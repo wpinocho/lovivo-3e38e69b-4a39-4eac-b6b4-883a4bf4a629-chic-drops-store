@@ -5,17 +5,9 @@ import { SocialLinks } from '@/components/SocialLinks'
 import { FloatingCart } from '@/components/FloatingCart'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
-import { ShoppingCart } from 'lucide-react'
+import { ShoppingCart, Search, Menu } from 'lucide-react'
 import { useCartUI } from '@/components/CartProvider'
 import { useCart } from '@/contexts/CartContext'
-import { Input } from '@/components/ui/input'
-
-/**
- * EDITABLE TEMPLATE - EcommerceTemplate
- * 
- * Template específico para páginas de ecommerce con header, footer y cart.
- * El agente IA puede modificar completamente el diseño, colores, layout.
- */
 
 interface EcommerceTemplateProps {
   children: ReactNode
@@ -41,9 +33,14 @@ export const EcommerceTemplate = ({
   const totalItems = getTotalItems()
 
   const header = (
-    <div className={`py-4 ${headerClassName}`}>
+    <div className={`py-6 border-b border-border bg-white ${headerClassName}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
+          {/* Mobile Menu */}
+          <Button variant="ghost" size="icon" className="md:hidden">
+            <Menu className="h-5 w-5" />
+          </Button>
+
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/">
@@ -52,45 +49,60 @@ export const EcommerceTemplate = ({
           </div>
 
           {/* Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <nav className="flex space-x-6">
-              <Link 
-                to="/" 
-                className="text-foreground/70 hover:text-foreground transition-colors"
-              >
-                Home
-              </Link>
-              <Link 
-                to="/blog" 
-                className="text-foreground/70 hover:text-foreground transition-colors"
-              >
-                Blog
-              </Link>
-            </nav>
-          </div>
-
-          {/* Cart */}
-          {showCart && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={openCart}
-              className="relative"
+          <nav className="hidden md:flex items-center space-x-8">
+            <Link 
+              to="/" 
+              className="text-sm tracking-wide hover:opacity-70 transition-opacity"
             >
-              <ShoppingCart className="h-5 w-5" />
-              {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                  {totalItems > 99 ? '99+' : totalItems}
-                </span>
-              )}
+              NEW ARRIVALS
+            </Link>
+            <Link 
+              to="/" 
+              className="text-sm tracking-wide hover:opacity-70 transition-opacity"
+            >
+              CLOTHING
+            </Link>
+            <Link 
+              to="/" 
+              className="text-sm tracking-wide hover:opacity-70 transition-opacity"
+            >
+              ACCESSORIES
+            </Link>
+            <Link 
+              to="/blog" 
+              className="text-sm tracking-wide hover:opacity-70 transition-opacity"
+            >
+              EDITORIAL
+            </Link>
+          </nav>
+
+          {/* Actions */}
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="icon">
+              <Search className="h-5 w-5" />
             </Button>
-          )}
+            {showCart && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={openCart}
+                className="relative"
+              >
+                <ShoppingCart className="h-5 w-5" />
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-black text-white text-xs font-light rounded-full h-5 w-5 flex items-center justify-center">
+                    {totalItems > 99 ? '99+' : totalItems}
+                  </span>
+                )}
+              </Button>
+            )}
+          </div>
         </div>
 
         {/* Page Title */}
         {pageTitle && (
-          <div className="mt-6">
-            <h1 className="text-3xl font-bold text-foreground">
+          <div className="mt-8 text-center">
+            <h1 className="text-3xl font-light tracking-tight">
               {pageTitle}
             </h1>
           </div>
@@ -100,45 +112,65 @@ export const EcommerceTemplate = ({
   )
 
   const footer = (
-    <div className={`bg-black text-white py-12 ${footerClassName}`}>
+    <div className={`bg-black text-white py-16 ${footerClassName}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
-          <div>
-            <BrandLogoLeft />
-            <p className="mt-4 text-white/70">
-              Your trusted online store
+          <div className="md:col-span-2">
+            <div className="mb-6">
+              <BrandLogoLeft />
+            </div>
+            <p className="text-white/70 text-sm leading-relaxed max-w-md">
+              Curating timeless pieces for the modern woman. 
+              Discover editorial-inspired fashion that transcends trends.
             </p>
           </div>
 
-          {/* Links */}
+          {/* Shop */}
           <div>
-            <h3 className="font-semibold mb-4 text-white">Links</h3>
-            <div className="space-y-2">
-              <Link 
-                to="/" 
-                className="block text-white/70 hover:text-white transition-colors"
-              >
-                Home
+            <h3 className="text-sm tracking-wider mb-4 font-light">SHOP</h3>
+            <div className="space-y-3">
+              <Link to="/" className="block text-white/70 hover:text-white text-sm transition-colors">
+                New Arrivals
               </Link>
-              <Link 
-                to="/blog" 
-                className="block text-white/70 hover:text-white transition-colors"
-              >
-                Blog
+              <Link to="/" className="block text-white/70 hover:text-white text-sm transition-colors">
+                Clothing
+              </Link>
+              <Link to="/" className="block text-white/70 hover:text-white text-sm transition-colors">
+                Accessories
+              </Link>
+              <Link to="/blog" className="block text-white/70 hover:text-white text-sm transition-colors">
+                Editorial
               </Link>
             </div>
           </div>
 
-          {/* Social Links */}
+          {/* Customer Care */}
           <div>
-            <h3 className="font-semibold mb-4 text-white">Follow Us</h3>
-            <SocialLinks />
+            <h3 className="text-sm tracking-wider mb-4 font-light">CUSTOMER CARE</h3>
+            <div className="space-y-3">
+              <a href="#" className="block text-white/70 hover:text-white text-sm transition-colors">
+                Contact Us
+              </a>
+              <a href="#" className="block text-white/70 hover:text-white text-sm transition-colors">
+                Shipping & Returns
+              </a>
+              <a href="#" className="block text-white/70 hover:text-white text-sm transition-colors">
+                Size Guide
+              </a>
+              <a href="#" className="block text-white/70 hover:text-white text-sm transition-colors">
+                FAQ
+              </a>
+            </div>
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-white/20 text-center text-white/70">
-          <p>&copy; 2024 Your Store. All rights reserved.</p>
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-white/50 text-sm">
+            &copy; 2024 OnlineStore. All rights reserved.
+          </p>
+          <SocialLinks />
         </div>
       </div>
     </div>
